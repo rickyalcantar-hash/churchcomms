@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2; --surface: #ffffff; --surface2: #f3efe8;
+  --border: #e2ddd5; --text: #1f1b16; --muted: #8a8075;
+  --accent: #7a5c3a; --accent-light: rgba(122,92,58,0.10);
+  --green: #3a7a5c; --red: #9b3a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; }
+header { background: var(--text); color: var(--bg); padding: 22px 32px; display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 3px solid var(--accent); }
+.logo h1 { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; color: var(--bg); line-height: 1; }
+.logo h1 em { font-style: italic; color: #d4a853; }
+.logo p { margin-top: 4px; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,247,242,0.35); }
+.header-tag { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,247,242,0.3); border: 1px solid rgba(250,247,242,0.15); padding: 4px 10px; border-radius: 20px; }
+.main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 18px; }
+.panel-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.04em; }
+input[type=text], textarea, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 300; padding: 10px 12px; outline: none; transition: border-color 0.2s; }
+input[type=text]:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 180px; line-height: 1.6; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+.tab { padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+.tab.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 500; }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.upload-zone { border: 1.5px dashed var(--border); border-radius: 8px; padding: 28px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+.upload-zone:hover { border-color: var(--accent); }
+.upload-zone.has-file { border-color: var(--green); background: rgba(58,122,92,0.05); }
+input[type=file] { display: none; }
+.run-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--accent); color: #fff8f0; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: opacity 0.2s; }
+.run-btn:hover { opacity: 0.88; } .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.run-btn-secondary { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+.spinner-dark { border: 2px solid rgba(122,92,58,0.3); border-top-color: var(--accent); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-bar { background: rgba(155,58,58,0.08); border: 1px solid rgba(155,58,58,0.25); border-radius: 6px; color: var(--red); padding: 10px 14px; font-size: 0.78rem; margin-top: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+.card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.card-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.copy-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; }
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+.copy-btn.copied { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.card-body { padding: 22px; font-size: 0.84rem; line-height: 1.8; }
+.card-body p { margin-bottom: 10px; }
+.card-body ul { margin: 6px 0 10px 20px; }
+.card-body li { margin-bottom: 5px; }
+.article-body { font-family: 'Lora', serif; font-size: 0.92rem; line-height: 1.9; }
+.article-body p { margin-bottom: 14px; }
+.attribution { border-top: 1px solid var(--border); margin-top: 20px; padding-top: 14px; font-style: italic; font-size: 0.76rem; color: var(--muted); font-family: 'Lora', serif; }
+.resource-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
+.resource-item:last-child { border-bottom: none; }
+.resource-item .rtitle { font-weight: 500; font-size: 0.85rem; }
+.resource-item .rtitle a { color: var(--accent); text-decoration: none; }
+.resource-item .rdesc { font-size: 0.77rem; color: var(--muted); margin-top: 3px; }
+.progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.progress-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.3s; }
+.progress-dot.active { background: var(--accent); animation: pulse 1s ease-in-out infinite; }
+.progress-dot.done { background: var(--green); animation: none; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+.progress-label { font-size: 0.74rem; color: var(--muted); }
+hr.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <h1>Sermon <em>to</em> Article</h1>
+    <p>Church Communications Suite</p>
+  </div>
+  <span class="header-tag">Editorial Tool</span>
+</header>
+<div class="main">
+
+  <!-- INPUT TABS -->
+  <div class="panel">
+    <div class="panel-label">Sermon Input</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('paste')">Paste Transcript</button>
+      <button class="tab" onclick="switchTab('audio')">Audio / Video File</button>
+    </div>
+    <div class="tab-panel active" id="tab-paste">
+      <label>Sermon transcript</label>
+      <textarea id="transcriptInput" placeholder="Paste full sermon transcript here…"></textarea>
+    </div>
+    <div class="tab-panel" id="tab-audio">
+      <div class="upload-zone" id="audioZone" onclick="document.getElementById('audioFile').click()">
+        <div style="font-size:1.8rem">🎙️</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:8px">Click to upload audio or video file</p>
+        <p style="font-size:0.7rem;color:var(--muted);margin-top:4px">Use Chrome for best transcription results. Audio plays locally.</p>
+      </div>
+      <input type="file" id="audioFile" accept="audio/*,video/*" onchange="handleAudioFile(this)">
+      <div id="audioStatus" style="display:none;margin-top:10px;font-size:0.78rem;color:var(--green)"></div>
+      <div style="margin-top:14px">
+        <label>Or paste transcript here</label>
+        <textarea id="audioTranscript" placeholder="Paste transcript if you already have one…" style="min-height:100px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERMON DETAILS -->
+  <div class="panel">
+    <div class="panel-label">Sermon Details</div>
+    <div class="grid2">
+      <div><label>Preacher name</label><input type="text" id="preacher" placeholder="e.g. Pastor Mike Johnson"></div>
+      <div><label>Sermon title</label><input type="text" id="sermonTitle" placeholder="e.g. Walking in Faith"></div>
+    </div>
+    <div class="grid3" style="margin-top:14px">
+      <div><label>Series name</label><input type="text" id="seriesName" placeholder="e.g. Foundations"></div>
+      <div><label>Scripture reference</label><input type="text" id="scripture" placeholder="e.g. John 3:16–21"></div>
+      <div><label>Intended audience</label><input type="text" id="audience" placeholder="e.g. general congregation"></div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Your website URL (for resource links)</label>
+      <input type="text" id="siteUrl" placeholder="e.g. https://yourchurch.com">
+    </div>
+  </div>
+
+  <!-- API KEY -->
+  <div class="panel">
+    <div class="panel-label">API Key</div>
+    <input type="password" id="apiKey" placeholder="sk-ant-…">
+    <p style="font-size:0.7rem;color:var(--muted);margin-top:6px">Not stored. Only used for this session.</p>
+  </div>
+
+  <button class="run-btn" id="runBtn" onclick="runTool()">
+    <div class="spinner" id="spinner" style="display:none"></div>
+    <span id="btnText">Generate Article</span>
+  </button>
+  <div class="error-bar" id="errorBar" style="display:none"></div>
+
+  <!-- RESULTS -->
+  <div id="results" style="display:none">
+    <hr class="divider">
+    <div class="panel" id="progressPanel" style="display:none">
+      <div class="panel-label">Generating</div>
+      <div class="progress-row"><div class="progress-dot" id="pd-summary"></div><span class="progress-label">Summary & key points (third-person)</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-article"></div><span class="progress-label">Article (first-person, preacher's voice)</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-resources"></div><span class="progress-label">Resource links</span></div>
+    </div>
+    <div id="outputCards"></div>
+
+    <!-- Bio section -->
+    <div id="bioSection" style="display:none">
+      <hr class="divider">
+      <div class="panel">
+        <div class="panel-label">Speaker Bio</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:14px">Generate a bio for the preacher. Runs separately.</p>
+        <label>Additional facts (optional)</label>
+        <input type="text" id="bioNotes" placeholder="Title, church, education, family…">
+        <div style="display:flex;gap:12px;margin-top:12px">
+          <select id="bioFormat" style="flex:1">
+            <option value="short">Short (2–3 sentences)</option>
+            <option value="medium" selected>Medium (1 paragraph)</option>
+            <option value="long">Long (full bio)</option>
+            <option value="intro">Speaker Intro (read aloud)</option>
+          </select>
+          <select id="bioTone" style="flex:1">
+            <option value="professional">Professional</option>
+            <option value="conversational" selected>Conversational</option>
+            <option value="journalistic">Journalistic / Third-person</option>
+          </select>
+        </div>
+        <button class="run-btn run-btn-secondary" id="bioBtn" onclick="runBio()" style="margin-top:14px">
+          <div class="spinner spinner-dark" id="bioSpinner" style="display:none"></div>
+          <span id="bioBtnText">Generate Bio</span>
+        </button>
+        <div class="error-bar" id="bioError" style="display:none"></div>
+      </div>
+      <div id="bioResult"></div>
+    </div>
+
+    <button onclick="resetForm()" style="margin-top:24px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer">↩ Start over</button>
+  </div>
+</div>
+
+<script>
+const cardCopyData = {};
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['paste','audio'][i]===name));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function handleAudioFile(input) {
+  if (!input.files[0]) return;
+  const f = input.files[0];
+  document.getElementById('audioZone').classList.add('has-file');
+  document.getElementById('audioZone').querySelector('p').textContent = '✓ ' + f.name;
+  document.getElementById('audioStatus').style.display = 'block';
+  document.getElementById('audioStatus').textContent = 'File ready: ' + (f.size/1024/1024).toFixed(1) + ' MB — paste transcript below to proceed.';
+}
+
+function getTranscript() {
+  const active = [...document.querySelectorAll('.tab')].findIndex(t=>t.classList.contains('active'));
+  if (active === 0) return document.getElementById('transcriptInput').value.trim();
+  return document.getElementById('audioTranscript').value.trim();
+}
+
+function setProgress(id, state) {
+  const dot = document.getElementById('pd-'+id);
+  if (dot) dot.className = 'progress-dot ' + state;
+}
+
+async function callAPI(apiKey, messages, system) {
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, system, messages })
+  });
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content.map(b=>b.text||'').join('');
+}
+
+async function runTool() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) return showError('Please enter your API key.');
+  const transcript = getTranscript();
+  if (!transcript) return showError('Please paste a sermon transcript.');
+  const preacher = document.getElementById('preacher').value.trim();
+  const title = document.getElementById('sermonTitle').value.trim();
+  const series = document.getElementById('seriesName').value.trim();
+  const scripture = document.getElementById('scripture').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const site = document.getElementById('siteUrl').value.trim();
+
+  const context = [
+    preacher && `Preacher: ${preacher}`,
+    title && `Sermon title: ${title}`,
+    series && `Series: ${series}`,
+    scripture && `Scripture: ${scripture}`,
+    audience && `Audience: ${audience}`
+  ].filter(Boolean).join('\n');
+
+  const system = `You are an editorial assistant for a church communications team. Write clearly and faithfully. Preserve the preacher's voice, word choices, and rhetorical style exactly.`;
+
+  setLoading(true);
+  hideError();
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('progressPanel').style.display = 'block';
+  document.getElementById('outputCards').innerHTML = '';
+
+  try {
+    // Step 1: Summary + key points (third-person)
+    setProgress('summary','active');
+    const summaryText = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT:\n${transcript}\n\nWrite a third-person editorial summary. Format:\n- 2–3 sentence summary about the preacher and sermon (who, what, core message) — write ABOUT the preacher, not as them\n- "KEY POINTS:" label then 4–6 bullet points starting with - each a clear third-person sentence like "${preacher||'The preacher'} argues that…" or "The sermon calls listeners to…"`}], system);
+    setProgress('summary','done');
+    addCard('Summary & Key Points', summaryText, 'summary', formatSummary(summaryText));
+
+    // Step 2: Article (first-person)
+    setProgress('article','active');
+    const articleText = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT:\n${transcript}\n\nTransform this sermon into a polished first-person article written AS IF by ${preacher||'the preacher'} themselves — use "I", "we", "my", "our" throughout. The article should:\n- Sound like the preacher wrote it, preserving their actual word choices, rhetorical patterns, and style\n- Open with a strong compelling paragraph in their voice\n- Flow through the sermon's key ideas in natural prose (not a point-by-point outline)\n- Preserve scripture quotes exactly as spoken\n- End with a meaningful closing paragraph\n- Do NOT add a headline or byline\n\nAt the very end of the article, on its own line, add exactly:\n---ATTRIBUTION---`}], system);
+    setProgress('article','done');
+    const cleanArticle = articleText.replace('---ATTRIBUTION---', '').trim();
+    const articleHtml = `<div class="article-body">${cleanArticle.split('\n\n').filter(p=>p.trim()).map(p=>`<p>${esc(p.trim())}</p>`).join('')}</div><div class="attribution">This article was developed with the assistance of Claude AI and our communications team.</div>`;
+    cardCopyData['article'] = cleanArticle + '\n\nThis article was developed with the assistance of Claude AI and our communications team.';
+    const articleCard = document.createElement('div');
+    articleCard.className = 'card';
+    articleCard.innerHTML = `<div class="card-header"><span class="card-title">Article (First-Person)</span><button class="copy-btn" onclick="copyCard('article',this)">Copy</button></div><div class="card-body">${articleHtml}</div>`;
+    document.getElementById('outputCards').appendChild(articleCard);
+
+    // Step 3: Resources
+    setProgress('resources','active');
+    const siteClause = site ? `Search ${site} and` : 'Search the web and';
+    const resourceText = await callAPI(apiKey, [{role:'user', content:`${context}\n\nMain topics from sermon:\n${transcript.substring(0,1000)}\n\n${siteClause} suggest 4–5 relevant resources related to this sermon's topics. For each:\n**Title** – URL\nOne sentence description`}], system);
+    setProgress('resources','done');
+    addCard('Resource Links', resourceText, 'resources', formatResources(resourceText));
+
+    // Show bio section
+    if (preacher) {
+      document.getElementById('bioSection').style.display = 'block';
+    }
+  } catch(e) {
+    showError(e.message);
+  }
+  setLoading(false);
+}
+
+async function runBio() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) return;
+  const preacher = document.getElementById('preacher').value.trim() || 'the preacher';
+  const notes = document.getElementById('bioNotes').value.trim();
+  const format = document.getElementById('bioFormat').value;
+  const tone = document.getElementById('bioTone').value;
+
+  document.getElementById('bioBtn').disabled = true;
+  document.getElementById('bioSpinner').style.display = 'block';
+  document.getElementById('bioBtnText').textContent = 'Generating…';
+
+  try {
+    const text = await callAPI(apiKey, [{role:'user', content:`Generate a ${format} bio for ${preacher}. Tone: ${tone}.\n${notes ? 'Known facts: ' + notes : ''}\n\nStrict rules:\n- Factual only — no "heart for", "passionate about", "called to", "dedicated to" or any sentiment language\n- Third person\n- Do not invent details\n${format === 'intro' ? '- End with a hand-off line like "Please welcome [name]."' : ''}`}], `You write strictly factual, sentiment-free bios for church communications.`);
+    const bioId = 'bio-preacher';
+    cardCopyData[bioId] = text;
+    document.getElementById('bioResult').innerHTML = `<div class="card"><div class="card-header"><span class="card-title">Bio — ${esc(preacher)}</span><button class="copy-btn" onclick="copyCard('${bioId}',this)">Copy</button></div><div class="card-body" style="font-size:0.84rem;line-height:1.8">${esc(text)}</div></div>`;
+  } catch(e) {
+    document.getElementById('bioError').style.display = 'block';
+    document.getElementById('bioError').textContent = e.message;
+  }
+  document.getElementById('bioBtn').disabled = false;
+  document.getElementById('bioSpinner').style.display = 'none';
+  document.getElementById('bioBtnText').textContent = 'Generate Bio';
+}
+
+function addCard(title, rawText, id, html) {
+  cardCopyData[id] = rawText;
+  const el = document.getElementById('outputCards');
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `<div class="card-header"><span class="card-title">${title}</span><button class="copy-btn" onclick="copyCard('${id}',this)">Copy</button></div><div class="card-body">${html}</div>`;
+  el.appendChild(div);
+}
+
+function formatSummary(text) {
+  let inList = false;
+  let html = '';
+  text.split('\n').forEach(line => {
+    line = line.trim();
+    if (!line) return;
+    if (line.startsWith('- ')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${esc(line.slice(2))}</li>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      if (line.match(/^KEY POINTS:/i)) { html += `<p style="font-size:0.65rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 6px">${esc(line)}</p>`; }
+      else { html += `<p>${esc(line)}</p>`; }
+    }
+  });
+  if (inList) html += '</ul>';
+  return html;
+}
+
+function formatResources(text) {
+  return text.split(/\n{2,}/).map(block => {
+    const lines = block.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+    if (!lines.length) return '';
+    const titleLine = lines[0].replace(/\*\*/g,'');
+    const urlMatch = titleLine.match(/https?:\/\/[^\s]+/);
+    const url = urlMatch ? urlMatch[0] : '';
+    const title = titleLine.replace(/–.*$/,'').replace(url,'').trim();
+    const desc = lines.slice(1).join(' ').trim();
+    if (!title) return '';
+    return `<div class="resource-item"><div class="rtitle">${url ? `<a href="${url}" target="_blank">${esc(title)}</a>` : esc(title)}</div>${desc ? `<div class="rdesc">${esc(desc)}</div>` : ''}</div>`;
+  }).join('');
+}
+
+function copyCard(id, btn) {
+  const text = cardCopyData[id] || '';
+  const confirm = () => { btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000); };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(confirm).catch(()=>fallbackCopy(text,btn,confirm));
+  else fallbackCopy(text,btn,confirm);
+}
+function fallbackCopy(text,btn,confirm) {
+  const ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;top:-9999px;opacity:0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{document.execCommand('copy');confirm();}catch(e){btn.textContent='Failed';setTimeout(()=>{btn.textContent='Copy';},2000);}
+  document.body.removeChild(ta);
+}
+function setLoading(on) { document.getElementById('runBtn').disabled=on; document.getElementById('spinner').style.display=on?'block':'none'; document.getElementById('btnText').textContent=on?'Generating…':'Generate Article'; }
+function showError(msg){const e=document.getElementById('errorBar');e.style.display='block';e.textContent=msg;}
+function hideError(){document.getElementById('errorBar').style.display='none';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function resetForm(){document.getElementById('transcriptInput').value='';document.getElementById('results').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+</script>
+</body>
+</html>
