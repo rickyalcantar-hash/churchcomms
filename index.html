@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communications Toolkit — Cross of Grace Church</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0e0d0c;
+  --surface: #1a1916;
+  --surface2: #222120;
+  --border: #2e2d2a;
+  --text: #ede9e2;
+  --muted: #7a7670;
+  --accent: #c8923a;
+  --accent-dim: rgba(200,146,58,0.12);
+  --accent-glow: rgba(200,146,58,0.06);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(200,146,58,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(200,146,58,0.04) 0%, transparent 50%);
+}
+
+/* ── HEADER ── */
+header {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 40px 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.church-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+header h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  max-width: 560px;
+}
+
+header h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+header p {
+  margin-top: 18px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ── TOOLS GRID ── */
+.tools-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 40px 80px;
+}
+
+.section-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 16px;
+}
+
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tool-card:hover {
+  border-color: rgba(200,146,58,0.35);
+  background: var(--surface2);
+}
+
+.tool-card:hover::before {
+  opacity: 1;
+}
+
+.tool-number {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+
+.tool-card h2 {
+  font-family: 'Lora', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.tool-card p {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.tool-outputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.output-tag {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(200,146,58,0.2);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.tool-card:hover .tool-link {
+  color: var(--accent);
+}
+
+.tool-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.tool-card:hover .tool-link svg {
+  transform: translate(2px, -2px);
+}
+
+/* ── USAGE NOTE ── */
+.usage-note {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px 40px;
+}
+
+.usage-box {
+  background: var(--accent-glow);
+  border: 1px solid rgba(200,146,58,0.18);
+  border-radius: 10px;
+  padding: 24px 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.usage-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+.usage-box h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.usage-box p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ── FOOTER ── */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 40px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+footer p {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.72rem;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 600px) {
+  header, .tools-section, .usage-note, footer { padding-left: 20px; padding-right: 20px; }
+  .tools-grid { grid-template-columns: 1fr; }
+  header { padding-top: 40px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="church-label">Cross of Grace Church</div>
+  <h1>Communications <em>Toolkit</em></h1>
+  <p>AI-powered writing tools for the communications team. Each tool runs in your browser — no login required, just paste your content and go.</p>
+</header>
+
+<div class="tools-section">
+  <div class="section-label">Available Tools</div>
+  <div class="tools-grid">
+
+    <a class="tool-card" href="interview-summarizer.html">
+      <div class="tool-number">Tool 01</div>
+      <h2>Interview Summarizer</h2>
+      <p>Turn any interview transcript, YouTube link, or audio file into a polished editorial summary, edited transcript, and social carousel ready to publish.</p>
+      <div class="tool-outputs">
+        <span class="output-tag">AP-style summary</span>
+        <span class="output-tag">Edited transcript</span>
+        <span class="output-tag">Resource links</span>
+        <span class="output-tag">Social carousel</span>
+        <span class="output-tag">Speaker bios</span>
+      </div>
+      <span class="tool-link">Open tool <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13L13 3M13 3H7M13 3V9"/></svg></span>
+    </a>
+
+    <a class="tool-card" href="sermon-to-article.html">
+      <div class="tool-number">Tool 02</div>
+      <h2>Sermon to Article</h2>
+      <p>Convert a sermon transcript into a first-person prose article written as if by the preacher, with a third-person summary and key points for editors.</p>
+      <div class="tool-outputs">
+        <span class="output-tag">Third-person summary</span>
+        <span class="output-tag">First-person article</span>
+        <span class="output-tag">Resource links</span>
+        <span class="output-tag">Speaker bio</span>
+      </div>
+      <span class="tool-link">Open tool <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13L13 3M13 3H7M13 3V9"/></svg></span>
+    </a>
+
+    <a class="tool-card" href="editorial-assistant.html">
+      <div class="tool-number">Tool 03</div>
+      <h2>Editorial Assistant</h2>
+      <p>Light grammar and clarity editing that preserves the author's voice. Shows exactly what was changed and generates a short reader summary.</p>
+      <div class="tool-outputs">
+        <span class="output-tag">Reader summary</span>
+        <span class="output-tag">Edited text</span>
+        <span class="output-tag">Change log</span>
+        <span class="output-tag">Writer bio</span>
+      </div>
+      <span class="tool-link">Open tool <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13L13 3M13 3H7M13 3V9"/></svg></span>
+    </a>
+
+    <a class="tool-card" href="bio-generator.html">
+      <div class="tool-number">Tool 04</div>
+      <h2>Bio Generator</h2>
+      <p>Generate professional bios in six formats and three tones. Strictly factual — no filler language. Includes a "generate another version" option.</p>
+      <div class="tool-outputs">
+        <span class="output-tag">6 formats</span>
+        <span class="output-tag">3 tones</span>
+        <span class="output-tag">Speaker intro</span>
+        <span class="output-tag">Social profile</span>
+      </div>
+      <span class="tool-link">Open tool <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13L13 3M13 3H7M13 3V9"/></svg></span>
+    </a>
+
+  </div>
+</div>
+
+<div class="usage-note">
+  <div class="usage-box">
+    <div class="usage-icon">🔑</div>
+    <div>
+      <h3>API Key Required</h3>
+      <p>Each tool connects directly to the Claude AI API. You'll need an Anthropic API key — enter it in the field at the bottom of each tool. Keys are never stored and only used during your session. Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Cross of Grace Church — Communications Team</p>
+  <p>Powered by <a href="https://anthropic.com" target="_blank">Claude AI</a></p>
+</footer>
+
+</body>
+</html>
