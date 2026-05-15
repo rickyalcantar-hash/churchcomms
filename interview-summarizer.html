@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Summarizer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -15,20 +16,15 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 14px; }
 header { padding: 20px 32px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; background: var(--surface); }
-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; }
+header h1 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; }
 header h1 em { font-style: italic; color: var(--accent); }
 header span { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
 .main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
 .panel-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
 label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.05em; }
-input[type=text], textarea, select {
-  width: 100%; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 6px; color: var(--text); font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem; font-weight: 300; padding: 10px 12px; outline: none;
-  transition: border-color 0.2s;
-}
-input[type=text]:focus, textarea:focus { border-color: var(--accent); }
+input[type=text], input[type=password], textarea, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 300; padding: 10px 12px; outline: none; transition: border-color 0.2s; }
+input:focus, textarea:focus { border-color: var(--accent); }
 textarea { resize: vertical; min-height: 160px; line-height: 1.6; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
@@ -38,15 +34,12 @@ textarea { resize: vertical; min-height: 160px; line-height: 1.6; }
 .upload-zone { border: 1.5px dashed var(--border); border-radius: 8px; padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
 .upload-zone:hover { border-color: var(--accent); }
 .upload-zone.has-file { border-color: var(--green); background: rgba(76,175,130,0.05); }
-.upload-zone p { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
-.upload-zone .icon { font-size: 1.8rem; }
 input[type=file] { display: none; }
-.run-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--accent); color: #1a1200; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: opacity 0.2s; }
+.run-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--accent); color: #1a1200; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: opacity 0.2s; }
 .run-btn:hover { opacity: 0.88; } .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .spinner { width: 16px; height: 16px; border: 2px solid rgba(26,18,0,0.3); border-top-color: #1a1200; border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .error-bar { background: rgba(224,90,90,0.12); border: 1px solid rgba(224,90,90,0.3); border-radius: 6px; color: var(--red); padding: 10px 14px; font-size: 0.78rem; margin-top: 12px; }
-.results { margin-top: 32px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
 .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); }
 .card-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
@@ -54,10 +47,10 @@ input[type=file] { display: none; }
 .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
 .copy-btn.copied { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
 .card-body { padding: 20px; font-size: 0.84rem; line-height: 1.75; }
+.card-body p { margin-bottom: 8px; }
 .card-body ul { margin: 8px 0 8px 20px; }
 .card-body li { margin-bottom: 6px; }
 .card-body a { color: var(--accent); text-decoration: none; }
-.card-body a:hover { text-decoration: underline; }
 .resource-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
 .resource-item:last-child { border-bottom: none; }
 .resource-item .rtitle { font-weight: 500; font-size: 0.85rem; }
@@ -74,17 +67,13 @@ input[type=file] { display: none; }
 .dots { display: flex; gap: 6px; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 0.2s; }
 .dot.active { background: var(--accent); }
-.bio-section { margin-top: 12px; }
-.bio-card { background: var(--surface2); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-.bio-name { font-weight: 500; font-size: 0.85rem; margin-bottom: 8px; color: var(--accent); }
-.bio-text { font-size: 0.82rem; line-height: 1.7; }
 .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.3s; }
 .progress-dot.active { background: var(--accent); animation: pulse 1s ease-in-out infinite; }
 .progress-dot.done { background: var(--green); animation: none; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
 .progress-label { font-size: 0.74rem; color: var(--muted); }
-.section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+hr.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
 .checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .checkbox-row input[type=checkbox] { accent-color: var(--accent); }
 .checkbox-row label { margin: 0; color: var(--text); font-size: 0.8rem; cursor: pointer; }
@@ -92,15 +81,10 @@ input[type=file] { display: none; }
 </head>
 <body>
 <header>
-  <div>
-    <h1>Interview <em>Summarizer</em></h1>
-    <span>Communications Tool</span>
-  </div>
+  <div><h1>Interview <em>Summarizer</em></h1><span>Communications Tool</span></div>
   <span style="font-size:0.65rem;color:var(--muted);border:1px solid var(--border);padding:4px 10px;border-radius:20px">Church Comms Suite</span>
 </header>
 <div class="main">
-
-  <!-- INPUT MODE TABS -->
   <div class="panel">
     <div class="panel-label">Input Source</div>
     <div class="tabs">
@@ -108,61 +92,37 @@ input[type=file] { display: none; }
       <button class="tab" onclick="switchTab('url')">YouTube / URL</button>
       <button class="tab" onclick="switchTab('audio')">Audio / Video File</button>
     </div>
-
-    <!-- PASTE TAB -->
     <div class="tab-panel active" id="tab-paste">
       <label>Transcript or raw text</label>
-      <textarea id="transcriptInput" placeholder="Paste interview transcript here…" oninput="updateCharCount(this)"></textarea>
-      <div style="font-size:0.7rem;color:var(--muted);margin-top:4px" id="charCount">0 characters</div>
+      <textarea id="transcriptInput" placeholder="Paste interview transcript here…"></textarea>
     </div>
-
-    <!-- URL TAB -->
     <div class="tab-panel" id="tab-url">
       <label>YouTube URL or web link</label>
       <input type="text" id="urlInput" placeholder="https://youtube.com/watch?v=...">
-      <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;line-height:1.6">Note: Claude will attempt to fetch a transcript from the URL. YouTube auto-captions work best.</p>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:8px">Claude will attempt to fetch a transcript from the URL.</p>
     </div>
-
-    <!-- AUDIO TAB -->
     <div class="tab-panel" id="tab-audio">
       <div class="upload-zone" id="audioZone" onclick="document.getElementById('audioFile').click()">
-        <div class="icon">🎙️</div>
-        <p>Click to upload audio or video file</p>
-        <p style="font-size:0.7rem;margin-top:4px">MP3, MP4, M4A, WAV — Chrome recommended for best results</p>
+        <div style="font-size:1.8rem">🎙️</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:8px">Click to upload audio or video file</p>
       </div>
       <input type="file" id="audioFile" accept="audio/*,video/*" onchange="handleAudioFile(this)">
-      <div id="audioStatus" style="display:none;margin-top:12px;font-size:0.78rem;color:var(--green)"></div>
+      <div id="audioStatus" style="display:none;margin-top:10px;font-size:0.78rem;color:var(--green)"></div>
       <div style="margin-top:12px">
         <label>Or paste transcribed text below</label>
-        <textarea id="audioTranscript" placeholder="Paste transcript here if you have one already…" style="min-height:100px"></textarea>
+        <textarea id="audioTranscript" placeholder="Paste transcript if you have one…" style="min-height:100px"></textarea>
       </div>
     </div>
   </div>
-
-  <!-- CONTEXT -->
   <div class="panel">
     <div class="panel-label">Context</div>
     <div class="grid2">
-      <div>
-        <label>Host name(s)</label>
-        <input type="text" id="hostNames" placeholder="e.g. Pastor John">
-      </div>
-      <div>
-        <label>Guest / Interviewee name(s)</label>
-        <input type="text" id="guestNames" placeholder="e.g. Dr. Sarah Chen">
-      </div>
+      <div><label>Host name(s)</label><input type="text" id="hostNames" placeholder="e.g. Pastor John"></div>
+      <div><label>Guest / Interviewee name(s)</label><input type="text" id="guestNames" placeholder="e.g. Dr. Sarah Chen"></div>
     </div>
-    <div style="margin-top:14px">
-      <label>Your website URL (for resource links)</label>
-      <input type="text" id="siteUrl" placeholder="e.g. https://yourchurch.com">
-    </div>
-    <div style="margin-top:14px">
-      <label>Any other context</label>
-      <input type="text" id="extraContext" placeholder="e.g. series name, topic, intended audience">
-    </div>
+    <div style="margin-top:14px"><label>Your website URL (for resource links)</label><input type="text" id="siteUrl" placeholder="e.g. https://yourchurch.com"></div>
+    <div style="margin-top:14px"><label>Any other context</label><input type="text" id="extraContext" placeholder="e.g. series name, topic, intended audience"></div>
   </div>
-
-  <!-- OUTPUTS TO GENERATE -->
   <div class="panel">
     <div class="panel-label">Outputs</div>
     <div class="checkbox-row"><input type="checkbox" id="chkSummary" checked><label for="chkSummary">AP/Axios-style summary + bullet points</label></div>
@@ -170,41 +130,33 @@ input[type=file] { display: none; }
     <div class="checkbox-row"><input type="checkbox" id="chkResources" checked><label for="chkResources">Resource links</label></div>
     <div class="checkbox-row"><input type="checkbox" id="chkCarousel" checked><label for="chkCarousel">Social media carousel (5 slides)</label></div>
   </div>
-
-  <!-- API KEY -->
   <div class="panel">
     <div class="panel-label">API Key</div>
     <input type="password" id="apiKey" placeholder="sk-ant-…">
     <p style="font-size:0.7rem;color:var(--muted);margin-top:6px">Not stored. Only used for this session.</p>
   </div>
-
   <button class="run-btn" id="runBtn" onclick="runSummarizer()">
     <div class="spinner" id="spinner" style="display:none"></div>
     <span id="btnText">Generate Summary</span>
   </button>
   <div class="error-bar" id="errorBar" style="display:none"></div>
-
-  <!-- RESULTS -->
-  <div class="results" id="results" style="display:none">
-    <hr class="section-divider">
-    <!-- Progress -->
+  <div id="results" style="display:none">
+    <hr class="divider">
     <div class="panel" id="progressPanel" style="display:none">
       <div class="panel-label">Generating</div>
-      <div class="progress-row"><div class="progress-dot" id="pd-summary"></div><span class="progress-label" id="pl-summary">Summary & bullets</span></div>
-      <div class="progress-row"><div class="progress-dot" id="pd-transcript"></div><span class="progress-label" id="pl-transcript">Edited transcript</span></div>
-      <div class="progress-row"><div class="progress-dot" id="pd-resources"></div><span class="progress-label" id="pl-resources">Resource links</span></div>
-      <div class="progress-row"><div class="progress-dot" id="pd-carousel"></div><span class="progress-label" id="pl-carousel">Social carousel</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-summary"></div><span class="progress-label">Summary & bullets</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-transcript"></div><span class="progress-label">Edited transcript</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-resources"></div><span class="progress-label">Resource links</span></div>
+      <div class="progress-row"><div class="progress-dot" id="pd-carousel"></div><span class="progress-label">Social carousel</span></div>
     </div>
     <div id="outputCards"></div>
-
-    <!-- Bio section -->
     <div id="bioSection" style="display:none">
-      <hr class="section-divider">
+      <hr class="divider">
       <div class="panel">
         <div class="panel-label">Biography Generator</div>
-        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px">Generate professional bios for each speaker. Runs as a separate process.</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px">Generate professional bios for each speaker.</p>
         <div id="bioFields"></div>
-        <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+        <div style="margin-top:12px;display:flex;gap:12px">
           <select id="bioFormat" style="flex:1">
             <option value="short">Short (2–3 sentences)</option>
             <option value="medium" selected>Medium (1 paragraph)</option>
@@ -214,7 +166,7 @@ input[type=file] { display: none; }
           <select id="bioTone" style="flex:1">
             <option value="professional">Professional</option>
             <option value="conversational" selected>Conversational</option>
-            <option value="journalistic">Journalistic / Third-person</option>
+            <option value="journalistic">Journalistic</option>
           </select>
         </div>
         <button class="run-btn" id="bioBtn" onclick="runBios()" style="margin-top:14px">
@@ -225,57 +177,37 @@ input[type=file] { display: none; }
       </div>
       <div id="bioResults"></div>
     </div>
-
     <button onclick="resetForm()" style="margin-top:24px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:6px;font-family:Outfit,sans-serif;font-size:0.78rem;cursor:pointer">↩ Start over</button>
   </div>
 </div>
-
 <script>
 const cardCopyData = {};
-
 function switchTab(name) {
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['paste','url','audio'][i]===name));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
 }
-
-function updateCharCount(el) {
-  document.getElementById('charCount').textContent = el.value.length.toLocaleString() + ' characters';
-}
-
 function handleAudioFile(input) {
   if (!input.files[0]) return;
   const f = input.files[0];
-  const zone = document.getElementById('audioZone');
-  zone.classList.add('has-file');
-  zone.querySelector('p').textContent = '✓ ' + f.name;
+  document.getElementById('audioZone').classList.add('has-file');
+  document.getElementById('audioZone').querySelector('p').textContent = '✓ ' + f.name;
   document.getElementById('audioStatus').style.display = 'block';
   document.getElementById('audioStatus').textContent = 'File ready: ' + (f.size/1024/1024).toFixed(1) + ' MB';
 }
-
 function getTranscript() {
-  const active = document.querySelector('.tab.active');
-  const tabs = ['paste','url','audio'];
-  const idx = [...document.querySelectorAll('.tab')].indexOf(active);
-  const mode = tabs[idx];
-  if (mode === 'paste') return document.getElementById('transcriptInput').value.trim();
-  if (mode === 'url') return ''; // handled via URL in prompt
-  if (mode === 'audio') return document.getElementById('audioTranscript').value.trim();
-  return '';
+  const idx = [...document.querySelectorAll('.tab')].findIndex(t=>t.classList.contains('active'));
+  if (idx===0) return document.getElementById('transcriptInput').value.trim();
+  if (idx===1) return '';
+  return document.getElementById('audioTranscript').value.trim();
 }
-
 function getActiveMode() {
-  const tabs = ['paste','url','audio'];
-  const active = [...document.querySelectorAll('.tab')].findIndex(t=>t.classList.contains('active'));
-  return tabs[active];
+  return ['paste','url','audio'][[...document.querySelectorAll('.tab')].findIndex(t=>t.classList.contains('active'))];
 }
-
 function setProgress(id, state) {
   const dot = document.getElementById('pd-'+id);
-  if (!dot) return;
-  dot.className = 'progress-dot ' + state;
+  if (dot) dot.className = 'progress-dot ' + state;
 }
-
 async function callAPI(apiKey, messages, systemPrompt) {
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -286,74 +218,57 @@ async function callAPI(apiKey, messages, systemPrompt) {
   if (data.error) throw new Error(data.error.message);
   return data.content.map(b=>b.text||'').join('');
 }
-
 async function runSummarizer() {
   const apiKey = document.getElementById('apiKey').value.trim();
   if (!apiKey) return showError('Please enter your API key.');
   const mode = getActiveMode();
   const transcript = getTranscript();
   const urlInput = document.getElementById('urlInput').value.trim();
-  if (mode === 'paste' && !transcript) return showError('Please paste a transcript.');
-  if (mode === 'url' && !urlInput) return showError('Please enter a URL.');
-  if (mode === 'audio' && !transcript) return showError('Please paste the transcript in the audio tab (or use the paste tab).');
-
+  if (mode==='paste' && !transcript) return showError('Please paste a transcript.');
+  if (mode==='url' && !urlInput) return showError('Please enter a URL.');
+  if (mode==='audio' && !transcript) return showError('Please paste the transcript in the audio tab.');
   const host = document.getElementById('hostNames').value.trim();
   const guest = document.getElementById('guestNames').value.trim();
   const site = document.getElementById('siteUrl').value.trim();
   const extra = document.getElementById('extraContext').value.trim();
-  const wantSummary = document.getElementById('chkSummary').checked;
-  const wantTranscript = document.getElementById('chkTranscript').checked;
-  const wantResources = document.getElementById('chkResources').checked;
-  const wantCarousel = document.getElementById('chkCarousel').checked;
-
-  const content = mode === 'url' ? `YouTube/URL: ${urlInput}` : transcript;
-  const context = [host && `Host: ${host}`, guest && `Guest: ${guest}`, extra && `Context: ${extra}`].filter(Boolean).join('\n');
-  const systemPrompt = `You are a professional editorial assistant for a church communications team. Follow AP style. Be factual and precise. Preserve speaker voice.`;
-
-  setLoading(true);
-  hideError();
+  const content = mode==='url' ? 'YouTube/URL: '+urlInput : transcript;
+  const context = [host&&'Host: '+host, guest&&'Guest: '+guest, extra&&'Context: '+extra].filter(Boolean).join('\n');
+  const sys = 'You are a professional editorial assistant for a church communications team. Follow AP style. Be factual and precise. Preserve speaker voice.';
+  setLoading(true); hideError();
   document.getElementById('results').style.display = 'block';
   document.getElementById('progressPanel').style.display = 'block';
   document.getElementById('outputCards').innerHTML = '';
-
   try {
-    if (wantSummary) {
+    if (document.getElementById('chkSummary').checked) {
       setProgress('summary','active');
-      const text = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT:\n${content}\n\nWrite an AP/Axios-style editorial summary. Format:\n- 2-3 sentence lede in third person (who, what, why it matters)\n- "THE BIG PICTURE:" label then 1 sentence\n- "KEY TAKEAWAYS:" label then 4-6 bullet points starting with - each being one substantive sentence from actual content`}], systemPrompt);
+      const text = await callAPI(apiKey, [{role:'user',content:`${context}\n\nTRANSCRIPT:\n${content}\n\nWrite an AP/Axios-style editorial summary:\n- 2-3 sentence lede (who, what, why it matters)\n- "THE BIG PICTURE:" then 1 sentence\n- "KEY TAKEAWAYS:" then 4-6 bullet points starting with -`}], sys);
       setProgress('summary','done');
       addCard('Summary', text, 'summary', formatSummary(text));
     }
-    if (wantTranscript) {
+    if (document.getElementById('chkTranscript').checked) {
       setProgress('transcript','active');
-      const text = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT:\n${content}\n\nProduce an edited transcript. Rules:\n- Remove filler words (um, uh, like, you know), false starts, and repeated phrases\n- Preserve every speaker's exact word choices, tone, and rhetorical style\n- Do NOT rephrase or improve their language — only remove clutter\n- Format as SPEAKER NAME: text, one paragraph per turn\n- Keep all substantive content`}], systemPrompt);
+      const text = await callAPI(apiKey, [{role:'user',content:`${context}\n\nTRANSCRIPT:\n${content}\n\nProduce an edited transcript:\n- Remove filler words, false starts, repeated phrases\n- Preserve exact word choices, tone, style\n- Do NOT rephrase — only remove clutter\n- Format as SPEAKER NAME: text`}], sys);
       setProgress('transcript','done');
       addCard('Edited Transcript', text, 'transcript', formatTranscript(text));
     }
-    if (wantResources) {
+    if (document.getElementById('chkResources').checked) {
       setProgress('resources','active');
-      const siteClause = site ? `Search ${site} and` : 'Search the web and';
-      const text = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT TOPICS:\n${content.substring(0,1500)}\n\n${siteClause} suggest 4-6 relevant resources related to the main topics in this interview. For each resource format as:\n**Title** – URL\nOne sentence description\n\nOnly include real, working links.`}], systemPrompt);
+      const siteClause = site ? 'Search '+site+' and' : 'Search the web and';
+      const text = await callAPI(apiKey, [{role:'user',content:`${context}\n\nTopics:\n${content.substring(0,1500)}\n\n${siteClause} suggest 4-6 relevant resources. Format each as:\n**Title** – URL\nOne sentence description`}], sys);
       setProgress('resources','done');
       addCard('Resource Links', text, 'resources', formatResources(text));
     }
-    if (wantCarousel) {
+    if (document.getElementById('chkCarousel').checked) {
       setProgress('carousel','active');
-      const text = await callAPI(apiKey, [{role:'user', content:`${context}\n\nTRANSCRIPT:\n${content.substring(0,2000)}\n\nCreate a 5-slide social media carousel from this interview. For each slide:\nSLIDE N:\nHEADLINE: [short punchy headline]\nBODY: [2-3 sentences using the speaker's own language and ideas]\n\nSlide 1: Hook/opening question or bold statement\nSlide 2: Key insight or surprising idea\nSlide 3: Direct quote or strong moment\nSlide 4: Practical application\nSlide 5: Closing CTA or reflection`}], systemPrompt);
+      const text = await callAPI(apiKey, [{role:'user',content:`${context}\n\nTRANSCRIPT:\n${content.substring(0,2000)}\n\nCreate a 5-slide social media carousel. For each slide:\nSLIDE N:\nHEADLINE: [short punchy headline]\nBODY: [2-3 sentences using speaker's language]\n\nSlide 1: Hook, Slide 2: Key insight, Slide 3: Quote/strong moment, Slide 4: Application, Slide 5: CTA`}], sys);
       setProgress('carousel','done');
       addCarousel(text);
     }
-
-    // Show bio section
     const names = [host, guest].filter(Boolean);
-    if (names.length) {
-      showBioSection(names);
-    }
-  } catch(e) {
-    showError(e.message);
-  }
+    if (names.length) showBioSection(names);
+  } catch(e) { showError(e.message); }
   setLoading(false);
 }
-
 function addCard(title, rawText, id, html) {
   cardCopyData[id] = rawText;
   const el = document.getElementById('outputCards');
@@ -362,150 +277,104 @@ function addCard(title, rawText, id, html) {
   div.innerHTML = `<div class="card-header"><span class="card-title">${title}</span><button class="copy-btn" onclick="copyCard('${id}',this)">Copy</button></div><div class="card-body">${html}</div>`;
   el.appendChild(div);
 }
-
 function formatSummary(text) {
-  return text.split('\n').map(line => {
-    line = line.trim();
-    if (!line) return '';
-    if (line.startsWith('- ')) return `<li>${esc(line.slice(2))}</li>`;
-    if (line.match(/^KEY TAKEAWAYS:/i)) return `<p style="font-size:0.65rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 6px">${esc(line)}</p><ul>`;
-    if (line.match(/^THE BIG PICTURE:/i)) return `<p style="font-size:0.65rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 6px">${esc(line)}</p>`;
-    return `<p style="margin-bottom:8px">${esc(line)}</p>`;
-  }).join('') + '</ul>';
-}
-
-function formatTranscript(text) {
-  return text.split('\n').map(line => {
-    line = line.trim();
-    if (!line) return '';
-    const m = line.match(/^([A-Z][^:]{1,40}):\s+(.+)/);
-    if (m) return `<p style="margin-bottom:12px"><strong style="color:var(--accent)">${esc(m[1])}:</strong> ${esc(m[2])}</p>`;
-    return `<p style="margin-bottom:8px">${esc(line)}</p>`;
-  }).join('');
-}
-
-function formatResources(text) {
-  const blocks = text.split(/\n{2,}/);
-  return blocks.map(block => {
-    const lines = block.trim().split('\n').map(l=>l.trim()).filter(Boolean);
-    if (!lines.length) return '';
-    const titleLine = lines[0].replace(/\*\*/g,'');
-    const urlMatch = titleLine.match(/https?:\/\/[^\s]+/);
-    const url = urlMatch ? urlMatch[0] : '';
-    const title = titleLine.replace(/–.*$/,'').replace(url,'').trim();
-    const desc = lines.slice(1).join(' ').trim();
-    if (!title) return '';
-    return `<div class="resource-item"><div class="rtitle">${url ? `<a href="${url}" target="_blank">${esc(title)}</a>` : esc(title)}</div>${desc ? `<div class="rdesc">${esc(desc)}</div>` : ''}</div>`;
-  }).join('');
-}
-
-function addCarousel(text) {
-  const slides = [];
-  const blocks = text.split(/SLIDE \d+:/i).filter(Boolean);
-  blocks.forEach((block, i) => {
-    const hm = block.match(/HEADLINE:\s*(.+)/i);
-    const bm = block.match(/BODY:\s*([\s\S]+?)(?=\n[A-Z]+:|$)/i);
-    if (hm) slides.push({ num: i+1, headline: hm[1].trim(), body: bm ? bm[1].trim() : '' });
+  let html='', inList=false;
+  text.split('\n').forEach(line=>{
+    line=line.trim(); if(!line)return;
+    if(line.startsWith('- ')){if(!inList){html+='<ul>';inList=true;}html+=`<li>${esc(line.slice(2))}</li>`;}
+    else{if(inList){html+='</ul>';inList=false;}
+    if(line.match(/^KEY TAKEAWAYS:|^THE BIG PICTURE:/i))html+=`<p style="font-size:0.65rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 6px">${esc(line)}</p>`;
+    else html+=`<p>${esc(line)}</p>`;}
   });
-  if (!slides.length) { addCard('Social Carousel', text, 'carousel', `<pre style="white-space:pre-wrap;font-size:0.8rem">${esc(text)}</pre>`); return; }
-
-  cardCopyData['carousel'] = slides.map(s=>`SLIDE ${s.num}\n${s.headline}\n${s.body}`).join('\n\n');
-  const el = document.getElementById('outputCards');
-  const div = document.createElement('div');
-  div.className = 'card';
-  const dotsHtml = slides.map((_,i)=>`<div class="dot${i===0?' active':''}" id="dot-${i}"></div>`).join('');
-  const slidesHtml = slides.map((s,i)=>`<div class="slide${i===0?' active':''}" id="slide-${i}"><div class="slide-num">Slide ${s.num} / ${slides.length}</div><div class="slide-headline">${esc(s.headline)}</div><div class="slide-body">${esc(s.body)}</div></div>`).join('');
-  div.innerHTML = `<div class="card-header"><span class="card-title">Social Carousel</span><button class="copy-btn" onclick="copyCard('carousel',this)">Copy All</button></div><div class="carousel">${slidesHtml}<div class="carousel-nav"><button class="nav-btn" onclick="carouselNav(-1)">← Prev</button><div class="dots">${dotsHtml}</div><button class="nav-btn" onclick="carouselNav(1)">Next →</button></div></div>`;
-  el.appendChild(div);
-  window._carouselIdx = 0;
-  window._carouselTotal = slides.length;
+  if(inList)html+='</ul>';
+  return html;
 }
-
-function carouselNav(dir) {
-  const total = window._carouselTotal || 0;
-  let idx = (window._carouselIdx || 0) + dir;
-  if (idx < 0) idx = total - 1;
-  if (idx >= total) idx = 0;
+function formatTranscript(text) {
+  return text.split('\n').map(line=>{
+    line=line.trim(); if(!line)return'';
+    const m=line.match(/^([A-Z][^:]{1,40}):\s+(.+)/);
+    if(m)return`<p style="margin-bottom:12px"><strong style="color:var(--accent)">${esc(m[1])}:</strong> ${esc(m[2])}</p>`;
+    return`<p style="margin-bottom:8px">${esc(line)}</p>`;
+  }).join('');
+}
+function formatResources(text) {
+  return text.split(/\n{2,}/).map(block=>{
+    const lines=block.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+    if(!lines.length)return'';
+    const titleLine=lines[0].replace(/\*\*/g,'');
+    const urlMatch=titleLine.match(/https?:\/\/[^\s]+/);
+    const url=urlMatch?urlMatch[0]:'';
+    const title=titleLine.replace(/–.*$/,'').replace(url,'').trim();
+    const desc=lines.slice(1).join(' ').trim();
+    if(!title)return'';
+    return`<div class="resource-item"><div class="rtitle">${url?`<a href="${url}" target="_blank">${esc(title)}</a>`:esc(title)}</div>${desc?`<div class="rdesc">${esc(desc)}</div>`:''}</div>`;
+  }).join('');
+}
+function addCarousel(text) {
+  const slides=[];
+  text.split(/SLIDE \d+:/i).filter(Boolean).forEach((block,i)=>{
+    const hm=block.match(/HEADLINE:\s*(.+)/i);
+    const bm=block.match(/BODY:\s*([\s\S]+?)(?=\n[A-Z]+:|$)/i);
+    if(hm)slides.push({num:i+1,headline:hm[1].trim(),body:bm?bm[1].trim():''});
+  });
+  if(!slides.length){addCard('Social Carousel',text,'carousel',`<pre style="white-space:pre-wrap;font-size:0.8rem">${esc(text)}</pre>`);return;}
+  cardCopyData['carousel']=slides.map(s=>`SLIDE ${s.num}\n${s.headline}\n${s.body}`).join('\n\n');
+  const el=document.getElementById('outputCards');
+  const div=document.createElement('div');
+  div.className='card';
+  const dotsHtml=slides.map((_,i)=>`<div class="dot${i===0?' active':''}" id="dot-${i}"></div>`).join('');
+  const slidesHtml=slides.map((s,i)=>`<div class="slide${i===0?' active':''}" id="slide-${i}"><div class="slide-num">Slide ${s.num} / ${slides.length}</div><div class="slide-headline">${esc(s.headline)}</div><div class="slide-body">${esc(s.body)}</div></div>`).join('');
+  div.innerHTML=`<div class="card-header"><span class="card-title">Social Carousel</span><button class="copy-btn" onclick="copyCard('carousel',this)">Copy All</button></div><div class="carousel">${slidesHtml}<div class="carousel-nav"><button class="nav-btn" onclick="carouselNav(-1)">← Prev</button><div class="dots">${dotsHtml}</div><button class="nav-btn" onclick="carouselNav(1)">Next →</button></div></div>`;
+  el.appendChild(div);
+  window._carouselIdx=0; window._carouselTotal=slides.length;
+}
+function carouselNav(dir){
+  const total=window._carouselTotal||0;
+  let idx=((window._carouselIdx||0)+dir+total)%total;
   document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
   document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-  window._carouselIdx = idx;
+  window._carouselIdx=idx;
 }
-
-function showBioSection(names) {
-  const bioSection = document.getElementById('bioSection');
-  bioSection.style.display = 'block';
-  const fields = document.getElementById('bioFields');
-  fields.innerHTML = names.map((name,i) => `
-    <div style="margin-bottom:12px">
-      <label>${esc(name)} – Additional facts (optional)</label>
-      <input type="text" id="bio-notes-${i}" data-name="${esc(name)}" placeholder="Title, church, education, family…">
-    </div>`).join('');
+function showBioSection(names){
+  document.getElementById('bioSection').style.display='block';
+  document.getElementById('bioFields').innerHTML=names.map((name,i)=>`<div style="margin-bottom:12px"><label>${esc(name)} – Additional facts (optional)</label><input type="text" id="bio-notes-${i}" data-name="${esc(name)}" placeholder="Title, church, education…"></div>`).join('');
 }
-
-async function runBios() {
-  const apiKey = document.getElementById('apiKey').value.trim();
-  if (!apiKey) return;
-  const format = document.getElementById('bioFormat').value;
-  const tone = document.getElementById('bioTone').value;
-  const notes = [...document.querySelectorAll('[id^=bio-notes-]')];
-
-  document.getElementById('bioBtn').disabled = true;
-  document.getElementById('bioSpinner').style.display = 'block';
-  document.getElementById('bioBtnText').textContent = 'Generating…';
-  document.getElementById('bioResults').innerHTML = '';
-
+async function runBios(){
+  const apiKey=document.getElementById('apiKey').value.trim(); if(!apiKey)return;
+  const format=document.getElementById('bioFormat').value;
+  const tone=document.getElementById('bioTone').value;
+  const notes=[...document.querySelectorAll('[id^=bio-notes-]')];
+  document.getElementById('bioBtn').disabled=true;
+  document.getElementById('bioSpinner').style.display='block';
+  document.getElementById('bioBtnText').textContent='Generating…';
+  document.getElementById('bioResults').innerHTML='';
   try {
-    for (const input of notes) {
-      const name = input.dataset.name;
-      const facts = input.value.trim();
-      const text = await callAPI(apiKey, [{role:'user', content:`Generate a ${format} bio for ${name}. Tone: ${tone}.\n${facts ? 'Known facts: ' + facts : ''}\n\nRules:\n- Strictly factual — no "heart for", "passionate about", "called to", "dedicated to" or similar sentiment language\n- Do not invent details not provided or verifiable\n- Write in third person\n- ${format === 'intro' ? 'End with a hand-off line like "Please welcome [name]."' : ''}`}], `You are a strictly factual bio writer for a church communications team. No sentiment language. Facts only.`);
-      const card = document.createElement('div');
-      card.className = 'card';
-      const bioId = 'bio-' + name.replace(/\s+/g,'-');
-      cardCopyData[bioId] = text;
-      card.innerHTML = `<div class="card-header"><span class="card-title">Bio — ${esc(name)}</span><button class="copy-btn" onclick="copyCard('${bioId}',this)">Copy</button></div><div class="card-body"><div class="bio-text">${esc(text)}</div></div>`;
+    for(const input of notes){
+      const name=input.dataset.name, facts=input.value.trim();
+      const text=await callAPI(apiKey,[{role:'user',content:`Generate a ${format} bio for ${name}. Tone: ${tone}.\n${facts?'Facts: '+facts:''}\nRules: factual only, no sentiment language ("heart for","passionate about","called to"), third person${format==='intro'?', end with "Please welcome [name]."':''}`}],'You write strictly factual bios. No sentiment language.');
+      const bioId='bio-'+name.replace(/\s+/g,'-');
+      cardCopyData[bioId]=text;
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`<div class="card-header"><span class="card-title">Bio — ${esc(name)}</span><button class="copy-btn" onclick="copyCard('${bioId}',this)">Copy</button></div><div class="card-body">${esc(text)}</div>`;
       document.getElementById('bioResults').appendChild(card);
     }
-  } catch(e) {
-    document.getElementById('bioError').style.display = 'block';
-    document.getElementById('bioError').textContent = e.message;
-  }
-  document.getElementById('bioBtn').disabled = false;
-  document.getElementById('bioSpinner').style.display = 'none';
-  document.getElementById('bioBtnText').textContent = 'Generate Bios';
+  } catch(e){document.getElementById('bioError').style.display='block';document.getElementById('bioError').textContent=e.message;}
+  document.getElementById('bioBtn').disabled=false;
+  document.getElementById('bioSpinner').style.display='none';
+  document.getElementById('bioBtnText').textContent='Generate Bios';
 }
-
-function copyCard(id, btn) {
-  const text = cardCopyData[id] || '';
-  const confirm = () => { btn.textContent = 'Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000); };
-  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(confirm).catch(()=>fallbackCopy(text,btn,confirm)); }
-  else { fallbackCopy(text,btn,confirm); }
+function copyCard(id,btn){
+  const text=cardCopyData[id]||'';
+  const confirm=()=>{btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);};
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(text).then(confirm).catch(()=>fallbackCopy(text,btn,confirm));
+  else fallbackCopy(text,btn,confirm);
 }
-
-function fallbackCopy(text, btn, confirm) {
-  const ta = document.createElement('textarea');
-  ta.value = text; ta.style.cssText = 'position:fixed;top:-9999px;opacity:0';
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  try { document.execCommand('copy'); confirm(); } catch(e) { btn.textContent = 'Failed'; setTimeout(()=>{btn.textContent='Copy';},2000); }
-  document.body.removeChild(ta);
-}
-
-function setLoading(on) {
-  document.getElementById('runBtn').disabled = on;
-  document.getElementById('spinner').style.display = on ? 'block' : 'none';
-  document.getElementById('btnText').textContent = on ? 'Generating…' : 'Generate Summary';
-}
-
-function showError(msg) { const e = document.getElementById('errorBar'); e.style.display='block'; e.textContent=msg; }
-function hideError() { document.getElementById('errorBar').style.display='none'; }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function resetForm() {
-  document.getElementById('transcriptInput').value = '';
-  document.getElementById('urlInput').value = '';
-  document.getElementById('audioTranscript').value = '';
-  document.getElementById('results').style.display = 'none';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function fallbackCopy(text,btn,confirm){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-9999px;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');confirm();}catch(e){btn.textContent='Failed';setTimeout(()=>{btn.textContent='Copy';},2000);}document.body.removeChild(ta);}
+function setLoading(on){document.getElementById('runBtn').disabled=on;document.getElementById('spinner').style.display=on?'block':'none';document.getElementById('btnText').textContent=on?'Generating…':'Generate Summary';}
+function showError(msg){const e=document.getElementById('errorBar');e.style.display='block';e.textContent=msg;}
+function hideError(){document.getElementById('errorBar').style.display='none';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function resetForm(){document.getElementById('transcriptInput').value='';document.getElementById('results').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
 </script>
 </body>
 </html>

@@ -3,59 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio Generator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #f5f2ee; --surface: #ffffff; --surface2: #eeeae4;
-  --border: #ddd9d0; --text: #1c1914; --muted: #8a8276;
-  --accent: #5b4a8a; --accent-light: rgba(91,74,138,0.08);
-  --green: #3a7a5c; --red: #9b3a3a;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; }
-header { background: var(--text); color: var(--bg); padding: 22px 32px; display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 3px solid var(--accent); }
-.logo h1 { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; color: var(--bg); line-height: 1; }
-.logo h1 em { font-style: italic; color: #b8a8e0; }
-.logo p { margin-top: 4px; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,242,238,0.35); }
-.main { max-width: 680px; margin: 0 auto; padding: 32px 24px 80px; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 18px; }
-.panel-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.04em; }
-input[type=text], textarea, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 300; padding: 10px 12px; outline: none; transition: border-color 0.2s; }
-input[type=text]:focus, textarea:focus { border-color: var(--accent); }
-textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.run-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: opacity 0.2s; }
-.run-btn:hover { opacity: 0.88; } .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-secondary { background: transparent; border: 1px solid var(--accent); color: var(--accent); margin-top: 12px; }
-.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
-.spinner-dark { border: 2px solid rgba(91,74,138,0.3); border-top-color: var(--accent); }
-@keyframes spin { to { transform: rotate(360deg); } }
-.error-bar { background: rgba(155,58,58,0.08); border: 1px solid rgba(155,58,58,0.25); border-radius: 6px; color: var(--red); padding: 10px 14px; font-size: 0.78rem; margin-top: 12px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 20px; overflow: hidden; }
-.card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-.card-title { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
-.copy-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; }
-.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-.copy-btn.copied { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-.card-body { padding: 22px; font-family: 'Lora', serif; font-size: 0.9rem; line-height: 1.85; }
-.format-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
-.chip { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
-.chip.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 500; }
+:root{--bg:#f5f2ee;--surface:#ffffff;--surface2:#eeeae4;--border:#ddd9d0;--text:#1c1914;--muted:#8a8276;--accent:#5b4a8a;--accent-light:rgba(91,74,138,0.08);--green:#3a7a5c;--red:#9b3a3a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;font-size:14px;}
+header{background:var(--text);color:var(--bg);padding:22px 32px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:3px solid var(--accent);}
+.logo h1{font-family:'Lora',serif;font-size:1.6rem;font-weight:600;color:var(--bg);line-height:1;}
+.logo h1 em{font-style:italic;color:#b8a8e0;}
+.logo p{margin-top:4px;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,242,238,0.35);}
+.main{max-width:680px;margin:0 auto;padding:32px 24px 80px;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:18px;}
+.panel-label{font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+label{display:block;font-size:0.72rem;color:var(--muted);margin-bottom:6px;}
+input[type=text],input[type=password],textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:300;padding:10px 12px;outline:none;transition:border-color 0.2s;}
+input:focus,textarea:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:100px;line-height:1.65;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.run-btn{width:100%;padding:14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity 0.2s;}
+.run-btn:hover{opacity:0.88;}.run-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-secondary{background:transparent;border:1px solid var(--accent);color:var(--accent);margin-top:12px;}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+.spinner-dark{border:2px solid rgba(91,74,138,0.3);border-top-color:var(--accent);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.error-bar{background:rgba(155,58,58,0.08);border:1px solid rgba(155,58,58,0.25);border-radius:6px;color:var(--red);padding:10px 14px;font-size:0.78rem;margin-top:12px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-top:20px;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.card-title{font-size:0.65rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);}
+.copy-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.7rem;cursor:pointer;transition:all 0.2s;}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+.copy-btn.copied{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.card-body{padding:22px;font-family:'Lora',serif;font-size:0.9rem;line-height:1.85;}
+.format-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;}
+.chip{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.75rem;cursor:pointer;transition:all 0.2s;}
+.chip.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);font-weight:500;}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">
-    <h1>Bio <em>Generator</em></h1>
-    <p>Church Communications Suite</p>
-  </div>
+  <div class="logo"><h1>Bio <em>Generator</em></h1><p>Church Communications Suite</p></div>
   <span style="font-size:0.65rem;color:rgba(245,242,238,0.3);border:1px solid rgba(245,242,238,0.15);padding:4px 10px;border-radius:20px">Standalone Tool</span>
 </header>
 <div class="main">
-
-  <!-- PERSON INFO -->
   <div class="panel">
     <div class="panel-label">Person</div>
     <div class="grid2">
@@ -64,11 +55,9 @@ textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
     </div>
     <div style="margin-top:14px">
       <label>Known facts (education, family, background, achievements)</label>
-      <textarea id="personFacts" placeholder="Enter any facts you want included. Claude will also search for public information."></textarea>
+      <textarea id="personFacts" placeholder="Enter any facts you want included. Claude will also draw on public information."></textarea>
     </div>
   </div>
-
-  <!-- FORMAT -->
   <div class="panel">
     <div class="panel-label">Format</div>
     <div class="format-chips" id="formatChips">
@@ -81,8 +70,6 @@ textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
     </div>
     <input type="hidden" id="selectedFormat" value="short">
   </div>
-
-  <!-- TONE -->
   <div class="panel">
     <div class="panel-label">Tone</div>
     <div class="format-chips" id="toneChips">
@@ -92,21 +79,16 @@ textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
     </div>
     <input type="hidden" id="selectedTone" value="conversational">
   </div>
-
-  <!-- API KEY -->
   <div class="panel">
     <div class="panel-label">API Key</div>
     <input type="password" id="apiKey" placeholder="sk-ant-…">
     <p style="font-size:0.7rem;color:var(--muted);margin-top:6px">Not stored. Only used for this session.</p>
   </div>
-
   <button class="run-btn" id="runBtn" onclick="runBio()">
     <div class="spinner" id="spinner" style="display:none"></div>
     <span id="btnText">Generate Bio</span>
   </button>
   <div class="error-bar" id="errorBar" style="display:none"></div>
-
-  <!-- RESULT -->
   <div id="resultArea" style="display:none">
     <div class="card">
       <div class="card-header">
@@ -120,77 +102,36 @@ textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
       <span id="btnText2">Generate Another Version</span>
     </button>
   </div>
-
 </div>
-
 <script>
-let currentBio = '';
-
-function selectChip(group, el, value) {
-  const container = group === 'format' ? 'formatChips' : 'toneChips';
-  document.getElementById(container).querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('selected' + (group === 'format' ? 'Format' : 'Tone')).value = value;
-}
-
-async function runBio() {
-  const apiKey = document.getElementById('apiKey').value.trim();
-  if (!apiKey) return showError('Please enter your API key.');
-  const name = document.getElementById('personName').value.trim();
-  if (!name) return showError('Please enter a name.');
-  const title = document.getElementById('personTitle').value.trim();
-  const facts = document.getElementById('personFacts').value.trim();
-  const format = document.getElementById('selectedFormat').value;
-  const tone = document.getElementById('selectedTone').value;
-
-  const formatDescriptions = {
-    'one-sentence': 'exactly one sentence',
-    'short': '2–3 sentences',
-    'medium': 'one full paragraph',
-    'long': 'a comprehensive multi-paragraph bio',
-    'intro': 'a speaker introduction meant to be read aloud on stage, ending with a hand-off line like "Please welcome [name]."',
-    'social': 'a first-person social media or profile bio (use "I am" or "I serve")'
-  };
-
-  const toneDescriptions = {
-    'professional': 'formal and professional',
-    'conversational': 'warm and conversational but not casual',
-    'journalistic': 'journalistic third-person, like an editorial profile'
-  };
-
-  const prompt = `Write a bio for ${name}${title ? ', ' + title : ''}.\n\nFormat: ${formatDescriptions[format]}\nTone: ${toneDescriptions[tone]}\n${facts ? 'Known facts to include: ' + facts : ''}\n\nStrict rules:\n- Factual only — absolutely NO phrases like "heart for", "passionate about", "called to", "dedicated to", "loves serving", "committed to", or any similar sentiment language\n- Do not invent details not provided\n- ${format === 'social' ? 'First person' : 'Third person (unless social format)'}\n- Keep it tight and purposeful`;
-
-  setLoading(true);
-  hideError();
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: 'You are a strictly factual bio writer for church communications. Never use sentiment language.', messages: [{role:'user',content:prompt}] })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    currentBio = data.content.map(b=>b.text||'').join('').trim();
-
-    const formatLabels = { 'one-sentence':'One-Sentence Bio', 'short':'Short Bio', 'medium':'Medium Bio', 'long':'Full Bio', 'intro':'Speaker Introduction', 'social':'Social / Profile Bio' };
-    document.getElementById('resultLabel').textContent = formatLabels[format] + ' — ' + name;
-    document.getElementById('bioOutput').textContent = currentBio;
-    document.getElementById('resultArea').style.display = 'block';
+let currentBio='';
+function selectChip(group,el,value){const container=group==='format'?'formatChips':'toneChips';document.getElementById(container).querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById('selected'+(group==='format'?'Format':'Tone')).value=value;}
+async function runBio(){
+  const apiKey=document.getElementById('apiKey').value.trim();if(!apiKey)return showError('Please enter your API key.');
+  const name=document.getElementById('personName').value.trim();if(!name)return showError('Please enter a name.');
+  const title=document.getElementById('personTitle').value.trim();
+  const facts=document.getElementById('personFacts').value.trim();
+  const format=document.getElementById('selectedFormat').value;
+  const tone=document.getElementById('selectedTone').value;
+  const formatDescriptions={'one-sentence':'exactly one sentence','short':'2–3 sentences','medium':'one full paragraph','long':'a comprehensive multi-paragraph bio','intro':'a speaker introduction meant to be read aloud on stage, ending with a hand-off line like "Please welcome [name]."','social':'a first-person social media or profile bio (use "I am" or "I serve")'};
+  const toneDescriptions={'professional':'formal and professional','conversational':'warm and conversational but not casual','journalistic':'journalistic third-person, like an editorial profile'};
+  const prompt=`Write a bio for ${name}${title?', '+title:''}.\n\nFormat: ${formatDescriptions[format]}\nTone: ${toneDescriptions[tone]}\n${facts?'Known facts to include: '+facts:''}\n\nStrict rules:\n- Factual only — absolutely NO phrases like "heart for","passionate about","called to","dedicated to","loves serving","committed to" or any similar sentiment language\n- Do not invent details not provided\n- ${format==='social'?'First person':'Third person'}\n- Keep it tight and purposeful`;
+  setLoading(true);hideError();
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'You are a strictly factual bio writer for church communications. Never use sentiment language.',messages:[{role:'user',content:prompt}]})});
+    const data=await resp.json();if(data.error)throw new Error(data.error.message);
+    currentBio=data.content.map(b=>b.text||'').join('').trim();
+    const formatLabels={'one-sentence':'One-Sentence Bio','short':'Short Bio','medium':'Medium Bio','long':'Full Bio','intro':'Speaker Introduction','social':'Social / Profile Bio'};
+    document.getElementById('resultLabel').textContent=formatLabels[format]+' — '+name;
+    document.getElementById('bioOutput').textContent=currentBio;
+    document.getElementById('resultArea').style.display='block';
     document.getElementById('resultArea').scrollIntoView({behavior:'smooth',block:'start'});
-  } catch(e) {
-    showError(e.message);
-  }
+  }catch(e){showError(e.message);}
   setLoading(false);
 }
-
-function copyResult(btn) {
-  const confirm = () => { btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000); };
-  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(currentBio).then(confirm).catch(()=>fallbackCopy(btn,confirm));
-  else fallbackCopy(btn,confirm);
-}
+function copyResult(btn){const confirm=()=>{btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);};if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(currentBio).then(confirm).catch(()=>fallbackCopy(btn,confirm));else fallbackCopy(btn,confirm);}
 function fallbackCopy(btn,confirm){const ta=document.createElement('textarea');ta.value=currentBio;ta.style.cssText='position:fixed;top:-9999px;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');confirm();}catch(e){btn.textContent='Failed';setTimeout(()=>{btn.textContent='Copy';},2000);}document.body.removeChild(ta);}
-function setLoading(on){['runBtn'].forEach(id=>{document.getElementById(id).disabled=on;});document.getElementById('spinner').style.display=on?'block':'none';document.getElementById('btnText').textContent=on?'Generating…':'Generate Bio';document.getElementById('spinner2').style.display=on?'block':'none';document.getElementById('btnText2').textContent=on?'Generating…':'Generate Another Version';}
+function setLoading(on){['runBtn'].forEach(id=>document.getElementById(id).disabled=on);document.getElementById('spinner').style.display=on?'block':'none';document.getElementById('btnText').textContent=on?'Generating…':'Generate Bio';document.getElementById('spinner2').style.display=on?'block':'none';document.getElementById('btnText2').textContent=on?'Generating…':'Generate Another Version';}
 function showError(msg){const e=document.getElementById('errorBar');e.style.display='block';e.textContent=msg;}
 function hideError(){document.getElementById('errorBar').style.display='none';}
 </script>
